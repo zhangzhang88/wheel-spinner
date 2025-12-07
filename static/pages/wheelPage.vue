@@ -19,10 +19,6 @@ limitations under the License.
     <div v-if="!wheelIsShared" :style="$mq=='desktop'?'height: 100%':''">
       <toolbar
         v-on:show-snackbar-message="showSnackbarMessage"
-        v-on:reset-wheel="resetWheel()"
-        v-on:open-open-dialog="openOpenDialog()"
-        v-on:open-save-dialog="openSaveDialog()"
-        v-on:open-share-dialog="openShareDialog()"
         v-on:open-customize-dialog="openCustomizeDialog()"
         v-on:open-twitter-dialog="openTwitterDialog()"
         v-on:open-sheet-dialog="openSheetDialog()"
@@ -82,33 +78,9 @@ limitations under the License.
 
     <aboutCards v-if="!fullScreen"/>
 
-    <opendialog
-      ref="opendialog"
-      v-on:show-snackbar-message="showSnackbarMessage"
-      v-on:start-wait-animation="startWaitAnimation"
-      v-on:stop-wait-animation="stopWaitAnimation"
-      v-on:auth-error="authError"
-      v-on:reset-wheel-rotation="resetWheelRotation"
-      v-on:reset-address-bar="resetAddressBar"
-    ></opendialog>
-    <savedialog
-      ref="savedialog"
-      v-on:show-snackbar-message="showSnackbarMessage"
-      v-on:start-wait-animation="startWaitAnimation"
-      v-on:stop-wait-animation="stopWaitAnimation"
-      v-on:auth-error="authError"
-      v-on:reset-address-bar="resetAddressBar"
-    ></savedialog>
     <optionsdialog ref="optionsdialog"
       v-on:show-snackbar-message="showSnackbarMessage"
     ></optionsdialog>
-    <sharedialog
-      ref="sharedialog"
-      v-on:show-snackbar-message="showSnackbarMessage"
-      v-on:start-wait-animation="startWaitAnimation"
-      v-on:stop-wait-animation="stopWaitAnimation"
-      v-on:auth-error="authError"
-    ></sharedialog>
     <twitterdialog
       ref="twitterdialog"
       v-on:show-snackbar-message="showSnackbarMessage"
@@ -148,10 +120,7 @@ limitations under the License.
   import spinningwheel from '../spinningwheel.vue';
   import nameTabs from '../nameTabs.vue';
   import aboutCards from '../cards/aboutCards.vue';
-  import opendialog from '../opendialog.vue';
-  import savedialog from '../savedialog.vue';
   import optionsdialog from '../optionsdialog.vue';
-  import sharedialog from '../sharedialog.vue';
   import twitterdialog from '../twitterdialog.vue';
   import sheetdialog from '../sheetdialog.vue';
   import accountdialog from '../accountdialog.vue';
@@ -170,8 +139,8 @@ limitations under the License.
   
   export default {
     components: {
-      toolbar, spinningwheel, nameTabs, opendialog,
-      winnerdialog, savedialog, optionsdialog, sharedialog, twitterdialog,
+      toolbar, spinningwheel, nameTabs,
+      winnerdialog, optionsdialog, twitterdialog,
       sheetdialog, accountdialog, winneranimation,
       aboutCards, titleAndDescription, muteToggle, titleAndDescriptionDialog
     },
@@ -238,13 +207,7 @@ limitations under the License.
         })      
       },
       startOnlineDetection() {
-        const self = this;
-        window.addEventListener('online', event => {
-          self.$store.commit('setOnline', navigator.onLine);
-        });
-        window.addEventListener('offline', event => {
-          self.$store.commit('setOnline', navigator.onLine);
-        });
+        this.$store.commit('setOnline');
       },
       startVisibilityDetection() {
         const reloader = new PageReloader();
@@ -304,18 +267,6 @@ limitations under the License.
         this.$refs.spinningwheel.resetRotation();
         this.showSnackbarMessage(this.$t('app.Loaded default names and options'));
         this.resetAddressBar();
-      },
-      openOpenDialog() {
-        Util.trackEvent('Wheel', 'ShowOpenDialog', '');
-        this.$refs.opendialog.show();
-      },
-      openSaveDialog() {
-        Util.trackEvent('Wheel', 'ShowSaveDialog', '');
-        this.$refs.savedialog.show();
-      },
-      openShareDialog() {
-        Util.trackEvent('Wheel', 'GetSharableLink', '');
-        this.$refs.sharedialog.show();
       },
       openCustomizeDialog() {
         Util.trackEvent('Wheel', 'ShowCustomizeDialog', '');

@@ -27,7 +27,6 @@ limitations under the License.
       ></textboxbuttons>
       <textbox v-if="!wheelIsAdvanced"></textbox>
       <advancedsliceeditor v-if="wheelIsAdvanced"></advancedsliceeditor>
-      <app-info></app-info>
     </b-tab-item>
     <b-tab-item class="my-tab-item">
       <template #header>
@@ -66,13 +65,12 @@ limitations under the License.
   import textboxbuttons from './textboxbuttons.vue';
   import textbox from './textbox.vue';
   import advancedsliceeditor from './advancedSliceEditor.vue';
-  import appInfo from './appInfo.vue';
   import winnertextbox from './winnertextbox.vue';
   import { mapGetters } from "vuex";
 
   export default {
     components: {
-      counterTag, textboxbuttons, textbox, advancedsliceeditor, appInfo, winnertextbox
+      counterTag, textboxbuttons, textbox, advancedsliceeditor, winnertextbox
     },
     data() {
       return { activeTab: 0 }

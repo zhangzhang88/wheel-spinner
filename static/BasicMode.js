@@ -13,23 +13,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-const express = require('express');
-const cors = require('cors');
-const app = express();
-app.use(cors({ origin: true }));
 
-const db = admin.firestore();
-
-app.get('/', async (req, res) => {
-  try {
-    const doc = await db.doc("settings/SPIN_STATS").get();
-    res.status(200).json(doc.data());
-  }
-  catch(ex) {
-    console.error(ex);
-    res.status(200).json({});
-  }
-});
-exports.func = () => functions.https.onRequest(app);
+const flag = (process.env.BASIC_MODE || '').toLowerCase();
+export const BASIC_MODE = flag === 'true' || flag === '1' || flag === 'yes';

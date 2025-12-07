@@ -36,8 +36,8 @@ export default {
     fullScreenChanged(state) {
       state.fullScreen = FullScreen.fullscreenOn();
     },
-    setOnline(state, online) {
-      state.online = online;
+    setOnline(state) {
+      state.online = true;
     },
   }
 }

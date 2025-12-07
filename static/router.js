@@ -25,6 +25,7 @@ const carouselPage = () => import(/* webpackChunkName: "carouselPage" */'./pages
 const notFoundPage = () => import(/* webpackChunkName: "notFoundPage" */'./pages/notFoundPage.vue');
 import * as Firebase from './Firebase.js';
 import * as ServerFunctions from './ServerFunctions.js';
+import { BASIC_MODE } from './BasicMode.js';
 
 Vue.use(VueRouter);
 
@@ -106,6 +107,11 @@ const router = new VueRouter({
 router.beforeEach(async(to, from, next) => {
   const adminOnly = to.matched[0].meta.adminOnly;
   if (adminOnly) {
+    if (BASIC_MODE) {
+      alert('The admin console is not available in basic mode.');
+      next(false);
+      return;
+    }
     await Firebase.loadLibraries();
     const idToken = await Firebase.getUserIdToken();
     const userIsAdmin = await ServerFunctions.userIsAdmin(idToken);

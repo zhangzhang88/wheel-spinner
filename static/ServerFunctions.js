@@ -16,8 +16,14 @@ limitations under the License.
 import '@babel/polyfill';
 import 'whatwg-fetch';
 import * as Util from './Util.js';
+import { BASIC_MODE } from './BasicMode.js';
+
+function offlineError(feature) {
+  throw new Error(`${feature} requires the cloud backend and is disabled in basic mode.`);
+}
 
 export async function createSharedWheel(copyable, wheelConfig, idToken) {
+  if (BASIC_MODE) offlineError('Sharing wheels');
   const payload = {copyable: copyable, wheelConfig: wheelConfig.getValues()};
   const url = process.env.FUNCTION_PREFIX + '/createSharedWheel3';
   const request = {
@@ -36,6 +42,7 @@ export async function createSharedWheel(copyable, wheelConfig, idToken) {
 }
 
 export async function logSharedWheelRead(path) {
+  if (BASIC_MODE) return;
   if (!path) return;
   const payload = {path: path};
   const url = process.env.FUNCTION_PREFIX + '/logSharedWheelRead';
@@ -48,6 +55,7 @@ export async function logSharedWheelRead(path) {
 }
 
 export async function getSharedWheel(path) {
+  if (BASIC_MODE) offlineError('Shared wheels');
   const url = process.env.FUNCTION_PREFIX + `/getSharedWheel2/${path}`;
   const response = await fetch(url, {
     method: 'GET',
@@ -58,6 +66,7 @@ export async function getSharedWheel(path) {
 }
 
 export async function getSharedWheels(idToken) {
+  if (BASIC_MODE) offlineError('Shared wheels');
   const url = process.env.FUNCTION_PREFIX + `/getSharedWheels`;
   const response = await fetch(url, {
     method: 'GET',
@@ -69,6 +78,7 @@ export async function getSharedWheels(idToken) {
 }
 
 export async function deleteSharedWheel(idToken, path) {
+  if (BASIC_MODE) offlineError('Shared wheels');
   const payload = {path: path};
   const url = process.env.FUNCTION_PREFIX + `/deleteSharedWheel`;
   const response = await fetch(url, {
@@ -82,6 +92,7 @@ export async function deleteSharedWheel(idToken, path) {
 }
 
 export async function fetchSocialMediaUsers(searchTerm) {
+  if (BASIC_MODE) offlineError('Twitter import');
   const url = process.env.FUNCTION_PREFIX +
     `/getTwitterUserNames2/${encodeURIComponent(searchTerm)}`;
   const response = await fetch(url, {
@@ -93,6 +104,7 @@ export async function fetchSocialMediaUsers(searchTerm) {
 }
 
 export async function convertAccount(oldIdToken, newIdToken) {
+  if (BASIC_MODE) offlineError('Account conversion');
   const payload = {oldIdToken: oldIdToken};
   const url = process.env.FUNCTION_PREFIX + '/convertAccount';
   try {
@@ -110,6 +122,7 @@ export async function convertAccount(oldIdToken, newIdToken) {
 }
 
 export async function deleteAccount(idToken) {
+  if (BASIC_MODE) offlineError('Account deletion');
   const url = process.env.FUNCTION_PREFIX + '/deleteAccount';
   try {
     const response = await fetch(url, {
@@ -125,6 +138,7 @@ export async function deleteAccount(idToken) {
 }
 
 export async function getCarousels() {
+  if (BASIC_MODE) return [];
   try {
     const url = process.env.FUNCTION_PREFIX + `/getCarousels`;
     const response = await fetch(url, {
@@ -140,6 +154,7 @@ export async function getCarousels() {
 }
 
 export async function getNumberOfWheelsInReviewQueue(idToken) {
+  if (BASIC_MODE) offlineError('Wheel review queue');
   const url = process.env.FUNCTION_PREFIX + '/getNumberOfWheelsInReviewQueue';
   const response = await fetch(url, {
     method: 'GET',
@@ -153,6 +168,7 @@ export async function getNumberOfWheelsInReviewQueue(idToken) {
 }
 
 export async function translate(idToken, entries) {
+  if (BASIC_MODE) offlineError('Translate');
   const url = process.env.FUNCTION_PREFIX + '/translate';
   const response = await fetch(url, {
     method: 'POST',
@@ -169,6 +185,7 @@ export async function translate(idToken, entries) {
 }
 
 export async function userIsAdmin(idToken) {
+  if (BASIC_MODE) return false;
   const url = process.env.FUNCTION_PREFIX + '/userIsAdmin';
   const response = await fetch(url, {
     method: 'GET',
@@ -180,6 +197,7 @@ export async function userIsAdmin(idToken) {
 }
 
 export async function getSpinStats() {
+  if (BASIC_MODE) return {};
   try {
     const url = process.env.FUNCTION_PREFIX + `/getSpinStats`;
     const response = await fetch(url, {

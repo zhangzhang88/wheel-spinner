@@ -26,18 +26,6 @@ limitations under the License.
       </b-tag>
     </template>
     <template slot="end">
-      <b-navbar-item v-show="newButtonVisible" @click="$emit('reset-wheel')">
-        <i class="fas fa-file fa-fw"></i>&nbsp;{{ $t('toolbar.New') }}
-      </b-navbar-item>
-      <b-navbar-item v-show="openButtonVisible" @click="$emit('open-open-dialog')">
-        <i class="fa fa-folder-open fa-fw"></i>&nbsp;{{ $t('common.Open') }}
-      </b-navbar-item>
-      <b-navbar-item v-show="saveButtonVisible" @click="$emit('open-save-dialog')">
-        <i class="fa fa-save fa-fw"></i>&nbsp;{{ $t('common.Save') }}
-      </b-navbar-item>
-      <b-navbar-item v-show="shareButtonVisible" @click="$emit('open-share-dialog')">
-        <i class="fa fa-share-alt fa-fw"></i>&nbsp;{{ $t('toolbar.Share') }}
-      </b-navbar-item>
       <b-navbar-item v-show="optionsButtonVisible" @click="$emit('open-customize-dialog')">
         <i class="fas fa-palette fa-fw"></i>&nbsp;{{ $t('common.Customize') }}
       </b-navbar-item>
@@ -50,61 +38,29 @@ limitations under the License.
       <b-navbar-item v-show="unlinkSheetButtonVisible" @click="$store.commit('unlinkSheet')">
         <i class="fa fa-unlink fa-fw"></i>&nbsp;{{ $t('toolbar.Unlink Google Spreadsheet') }}
       </b-navbar-item>
-      <template v-if="browserIsIEOrOldEdge">
-        <b-navbar-item v-show="feedbackbuttonVisible" @click="openFeedbackForm">
-          <i class="fa fa-comment fa-fw"></i>&nbsp;{{ $t('toolbar.Feedback') }}
+      <template>
+        <b-navbar-item v-show="moreVisible" @click="toggleDarkMode()">
+          <i class="fas fa-moon fa-fw"></i>&nbsp;{{ darkModeLabel }}
         </b-navbar-item>
-      </template>
-      <template v-else>
-        <b-navbar-dropdown v-show="moreVisible" :label="$t('toolbar.More')" :right="true">
-          <b-navbar-item v-show="feedbackbuttonVisible" @click="openFeedbackForm">
-            <i class="fa fa-comment fa-fw"></i>&nbsp;{{ $t('toolbar.Feedback') }}
-          </b-navbar-item>
-          <b-navbar-item v-show="faqbuttonVisible" @click="$router.push('/faq')">
-            <i class="fa fa-question-circle fa-fw"></i>&nbsp;{{ $t('toolbar.FAQ') }}
-          </b-navbar-item>
-          <b-navbar-item v-show="feedbackbuttonVisible" @click="$router.push('/privacy-policy')">
-            <i class="fas fa-user-secret fa-fw"></i>&nbsp;{{ $t('common.Privacy policy') }}
-          </b-navbar-item>
-          <b-navbar-item v-show="feedbackbuttonVisible" @click="$router.push('/faq/terms')">
-            <i class="fas fa-balance-scale fa-fw"></i>&nbsp;{{ $t('appInfo.Terms of service') }}
-          </b-navbar-item>
-          <b-navbar-item>
-          </b-navbar-item>
-          <b-navbar-item v-show="importVisible" @click="$emit('open-twitter-dialog')">
-            <i class="fab fa-twitter fa-fw"></i>&nbsp;{{ $t('common.Import Twitter users') }}
-          </b-navbar-item>
-          <b-navbar-item v-show="importVisible" @click="$emit('open-sheet-dialog')">
-            <i class="fa fa-link fa-fw"></i>&nbsp;{{ $t('common.Link Google Spreadsheet') }}
-          </b-navbar-item>
-          <b-navbar-item v-if="!browserIsIEOrOldEdge" v-show="optionsButtonVisible" @click="toggleDarkMode()">
-            <i class="fas fa-moon fa-fw"></i>&nbsp;{{ $t('toolbar.Dark mode') }}
-          </b-navbar-item>
-          <b-navbar-item>
-          </b-navbar-item>
-          <b-navbar-item @click="$emit('open-account-dialog')">
-            <i class="fas fa-user-alt fa-fw"></i>&nbsp;{{ $t('common.My account') }}
+        <b-navbar-dropdown v-if="$mq=='mobile'" :label="$t('toolbar.Language')">
+          <b-navbar-item v-for="locale in locales" :key="locale.name"
+            @click="$emit('set-locale', locale.name)">
+              {{ locale.humanName }}
           </b-navbar-item>
         </b-navbar-dropdown>
-      <b-navbar-dropdown v-if="$mq=='mobile'" :label="$t('toolbar.Language')">
-        <b-navbar-item v-for="locale in locales" :key="locale.name"
-          @click="$emit('set-locale', locale.name)">
-            {{ locale.humanName }}
+        <b-navbar-item v-if="$mq!='mobile'" v-show="languageVisible" tag="div" href="#">
+          <b-select v-model="locale">
+            <option
+              v-for="locale in locales"
+              :value="locale.name"
+              :key="locale.name">
+              {{ locale.humanName }}
+            </option>
+            <option value='add-your-language'>
+              {{ $t('toolbar.Add your language') }}
+            </option>
+          </b-select>
         </b-navbar-item>
-      </b-navbar-dropdown>
-      <b-navbar-item v-if="$mq!='mobile'" v-show="languageVisible" tag="div" href="#">
-        <b-select v-model="locale">
-          <option
-            v-for="locale in locales"
-            :value="locale.name"
-            :key="locale.name">
-            {{ locale.humanName }}
-          </option>
-          <option value='add-your-language'>
-            {{ $t('toolbar.Add your language') }}
-          </option>
-        </b-select>
-      </b-navbar-item>
       </template>
     </template>
   </b-navbar>
@@ -119,7 +75,6 @@ limitations under the License.
     data() {
       return {
         toolbarBrand: window.location.host,
-        browserIsIEOrOldEdge: Util.browserIsIEOrOldEdge(navigator.userAgent),
         locales: Locales.getNamesForAll(Util.platformSupportsFlags(navigator))
       };
     },
@@ -137,18 +92,6 @@ limitations under the License.
           }
         }
       },
-      newButtonVisible: function() {
-        return (!this.fullScreen && !this.sheetLinked && !this.wheelIsBusy);
-      },
-      openButtonVisible: function() {
-        return !this.fullScreen && !this.sheetLinked && !this.wheelIsBusy;
-      },
-      saveButtonVisible: function() {
-        return this.online && !this.fullScreen && !this.wheelIsBusy;
-      },
-      shareButtonVisible: function() {
-        return this.online && !this.fullScreen && !this.wheelIsBusy;
-      },
       optionsButtonVisible: function() {
         return !this.fullScreen && !this.wheelIsBusy;
       },
@@ -161,24 +104,17 @@ limitations under the License.
       moreVisible: function() {
         return this.online && !this.fullScreen && !this.wheelIsBusy;
       },
-      importVisible: function() {
-        return this.online && !this.fullScreen &&
-               !this.sheetLinked && !this.wheelIsBusy;
-      },
       unlinkSheetButtonVisible: function() {
         return this.sheetLinked && !this.fullScreen && !this.wheelIsBusy;
       },
       languageVisible: function() {
         return this.online && !this.fullScreen && !this.wheelIsBusy;
       },
-      faqbuttonVisible: function() {
-        return !this.fullScreen && !this.wheelIsBusy;
-      },
-      feedbackbuttonVisible: function() {
-        return this.online && !this.fullScreen && !this.wheelIsBusy;
+      darkModeLabel() {
+        return this.darkMode ? this.$t('toolbar.Light mode') : this.$t('toolbar.Dark mode');
       },
       ...mapGetters([
-        'online', 'wheelIsBusy', 'fullScreen', 'sheetLinked', 'version'
+        'online', 'wheelIsBusy', 'fullScreen', 'sheetLinked', 'darkMode'
       ])
     },
     methods: {
@@ -193,10 +129,6 @@ limitations under the License.
       toggleDarkMode() {
         Util.trackEvent('Wheel', 'ToggleDarkMode', '');
         this.$store.commit('toggleDarkMode');
-      },
-      openFeedbackForm() {
-        const url = Util.getFeedbackFormUrl(navigator.userAgent, this.version);
-        window.open(url, '_new');
       }
     }
   }

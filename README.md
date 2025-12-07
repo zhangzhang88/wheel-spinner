@@ -164,6 +164,21 @@ in the left-hand navigation bar.
       Select Home. Under *Project info*, copy the *Project number*. For example:
       *57344078235*.
 
+### Basic local mode (no Firebase) ###
+
+If you only need the wheel's core functionality and do not plan to connect
+to Firebase, set the value `BASIC_MODE=true` in `build/dev.env`. When this flag
+is enabled the application:
+
+* Skips loading Firebase SDKs and never requires credentials.
+* Disables cloud-dependent features such as Save, Open, Share, Twitter import,
+  Google Sheets linking, and the admin console.
+* Continues to store the wheel you're editing in `localStorage`, so you can
+  refresh the page without losing your progress.
+
+This mode is ideal for simple local kiosks or demos where authentication and
+remote persistence are not needed.
+
 
 ### Host the app on your local machine ###
 

@@ -17,6 +17,7 @@ import WheelConfig from '../WheelConfig.js';
 import * as Util from '../Util.js';
 import * as ImageUtil from '../ImageUtil.js';
 import * as ServerFunctions from '../ServerFunctions.js';
+import { BASIC_MODE } from '../BasicMode.js';
 
 export default {
   state: {
@@ -243,6 +244,9 @@ export default {
   },
   actions: {
     async loadInitialWheel(context, sharedWheelPath) {
+      if (BASIC_MODE) {
+        sharedWheelPath = null;
+      }
       const winnerMessage = context.state.$t('common.We have a winner!');
       if (sharedWheelPath) {
         context.commit('setPath', sharedWheelPath);
@@ -273,6 +277,9 @@ export default {
       context.commit('clearWinners');
     },
     async fetchSocialMediaUsers(context, searchTerm) {
+      if (BASIC_MODE) {
+        throw new Error('Importing social media users is unavailable in basic mode.');
+      }
       const users = await ServerFunctions.fetchSocialMediaUsers(searchTerm);
       context.commit('setTextEntries', users);
       context.commit('setWheelTitle', '');

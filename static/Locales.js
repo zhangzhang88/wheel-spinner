@@ -19,6 +19,7 @@ const locales = [
   {name: 'en-PI', humanName: 'English (Pirate)', flag: '🏴‍☠️',         googleName: 'en_US', twitterName: 'en',    file: 'en-PI.json'},
   {name: 'en',    humanName: 'English',          flag: '🇺🇸 🇬🇧 🇨🇦 🇦🇺', googleName: 'en_US', twitterName: 'en',    file: 'en-US.json'},
   {name: 'fr',    humanName: 'Français',         flag: '🇫🇷 🇨🇦 🇧🇪 🇨🇭', googleName: 'fr_FR', twitterName: 'fr',    file: 'fr-FR.json'},
+  {name: 'zh-CN', humanName: '简体中文',           flag: '🇨🇳',         googleName: 'zh_CN', twitterName: 'zh',    file: 'zh-CN.json'},
   {name: 'sv',    humanName: 'Svenska',          flag: '🇸🇪',       googleName: 'sv_SE', twitterName: 'sv',    file: 'sv-SE.json'},
 ]
 
