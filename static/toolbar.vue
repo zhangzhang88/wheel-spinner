@@ -56,9 +56,6 @@ limitations under the License.
               :key="locale.name">
               {{ locale.humanName }}
             </option>
-            <option value='add-your-language'>
-              {{ $t('toolbar.Add your language') }}
-            </option>
           </b-select>
         </b-navbar-item>
       </template>
@@ -84,12 +81,7 @@ limitations under the License.
           return this.$i18n.locale;
         },
         set: function(newValue) {
-          if (newValue == 'add-your-language') {
-            this.$router.push('/translate.html');
-          }
-          else {
-            this.$emit('set-locale', newValue);
-          }
+          this.$emit('set-locale', newValue);
         }
       },
       optionsButtonVisible: function() {

@@ -36,12 +36,11 @@ limitations under the License.
 <script>
   import simpletoolbar from '../simpletoolbar.vue';
   import fixTranslationCard from '../cards/fixTranslationCard.vue';
-  import addTranslationCard from '../cards/addTranslationCard.vue';
   import translatorsCard from '../cards/translatorsCard.vue';
-  
+
   export default {
     components: {
-      simpletoolbar, fixTranslationCard, addTranslationCard, translatorsCard
+      simpletoolbar, fixTranslationCard, translatorsCard
     },
     mounted() {
       document.title = 'Translations';
