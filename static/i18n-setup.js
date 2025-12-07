@@ -20,12 +20,11 @@ import * as Locales from './Locales.js';
 Vue.use(VueI18n)
 
 export const i18n = new VueI18n({
-  locale: 'en',
+  locale: 'zh-CN',
   fallbackLocale: 'en',
 })
 
-export async function loadLanguage(lang) {
-  if (!lang) return;
+export async function loadLanguage(lang = 'zh-CN') {
   const file = Locales.getMessagesFileName(lang);
   const messages = (
     await import(/* webpackChunkName: "locale-[request]" */
