@@ -63,6 +63,7 @@ node_modules/
 
 # dotenv environment variables file
 *.env
+!build/*.env
 
 # Compiled code
 dist
