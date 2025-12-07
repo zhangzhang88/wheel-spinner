@@ -14,9 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <template>
-  <div id="entries" class="textarea can-go-dark basic-editor has-fixed-size" spellcheck="false"
-       contentEditable="true" v-on:paste="onPaste" v-on:input="setEntries()"
-       v-on:keyup="IE_setEntries"></div>
+  <div class="entries-wrapper">
+    <div class="entries-header">
+      <span>{{ $t('nameTabs.Entries') }}</span>
+    </div>
+    <div id="entries" class="textarea can-go-dark basic-editor has-fixed-size" spellcheck="false"
+         contentEditable="true" v-on:paste="onPaste" v-on:input="setEntries()"
+         v-on:keyup="IE_setEntries"></div>
+  </div>
 </template>
 
 <script>
@@ -120,6 +125,33 @@ limitations under the License.
 </script>
 
 <style scoped>
+  .entries-wrapper {
+    position: relative;
+    border-radius: 18px;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(122, 84, 219, 0.12), rgba(59, 130, 246, 0.08));
+    box-shadow: 0 18px 35px rgba(138, 92, 246, 0.18);
+    overflow: hidden;
+  }
+
+  .entries-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 16px;
+    border: 1px solid rgba(122, 84, 219, 0.35);
+    pointer-events: none;
+  }
+
+  .entries-header {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(79, 70, 229, 0.8);
+    padding: 0 6px 4px 12px;
+  }
+
   .basic-editor {
     flex-grow: 1;
     overflow: auto;
@@ -128,5 +160,10 @@ limitations under the License.
                  'Helvetica', 'Arial', sans-serif;
     height: 300px;
     max-height: 2000px;
+    border-radius: 12px;
+    border: none;
+    background: white;
+    padding: 16px;
+    box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.2);
   }
 </style>
