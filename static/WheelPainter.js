@@ -200,6 +200,7 @@ export default class WheelPainter {
   drawPointerNoCache(context) {
     context.save();
     context.translate(context.canvas.width / 2, context.canvas.height / 2);
+    context.rotate(-Math.PI / 2);
     if (this.drawShadows) {
       context.shadowColor = '#444';
       context.shadowOffsetY = 4;
