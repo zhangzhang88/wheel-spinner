@@ -74,10 +74,6 @@ limitations under the License.
       </section>
     </div>
 
-    <hr>
-
-    <aboutCards v-if="!fullScreen"/>
-
     <optionsdialog ref="optionsdialog"
       v-on:show-snackbar-message="showSnackbarMessage"
     ></optionsdialog>
@@ -119,7 +115,6 @@ limitations under the License.
   import toolbar from '../toolbar.vue';
   import spinningwheel from '../spinningwheel.vue';
   import nameTabs from '../nameTabs.vue';
-  import aboutCards from '../cards/aboutCards.vue';
   import optionsdialog from '../optionsdialog.vue';
   import twitterdialog from '../twitterdialog.vue';
   import sheetdialog from '../sheetdialog.vue';
@@ -142,7 +137,7 @@ limitations under the License.
       toolbar, spinningwheel, nameTabs,
       winnerdialog, optionsdialog, twitterdialog,
       sheetdialog, accountdialog, winneranimation,
-      aboutCards, titleAndDescription, muteToggle, titleAndDescriptionDialog
+      titleAndDescription, muteToggle, titleAndDescriptionDialog
     },
     async mounted() {
       this.$store.state.wheel.$t = this.translateMe;
