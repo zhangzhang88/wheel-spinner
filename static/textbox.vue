@@ -158,7 +158,7 @@ limitations under the License.
     font-family: BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
                  'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
                  'Helvetica', 'Arial', sans-serif;
-    height: 450px;
+    height: 600px;
     max-height: 2000px;
     border-radius: 12px;
     border: none;
