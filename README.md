@@ -1,5 +1,8 @@
 # README #
 
+npm run build
+npx --yes serve -l 5000 dist
+
 **This is not an officially supported Google product.**
 
 This README explains how to install the app and get it running in the cloud.

@@ -18,17 +18,18 @@ import * as Util from './Util.js';
 export default class WheelConfig {
 
   constructor(winnerMessage) {
-    this.title = '';
+    this.title = '今天吃什么';
     this.description = '';
     this.entries = [
-      {text: 'Ali'},
-      {text: 'Beatriz'},
-      {text: 'Charles'},
-      {text: 'Diya'},
-      {text: 'Eric'},
-      {text: 'Fatima'},
-      {text: 'Gabriel'},
-      {text: 'Hanna'},
+      {text: '麻婆豆腐'},
+      {text: '辣椒炒肉'},
+      {text: '酸菜鱼'},
+      {text: '西红柿炒蛋'},
+      {text: '卤猪脚'},
+      {text: '潮汕粿条'},
+      {text: '卤鸭'},
+      {text: '红烧鱼'},
+      {text: '蛋炒饭'},
     ];
     this.colorSettings = [
       {color: '#3369E8', enabled: true},
