@@ -29,6 +29,12 @@ export default class WheelConfig {
       {text: '潮汕粿条'},
       {text: '卤鸭'},
       {text: '红烧鱼'},
+      {text: '辣炒走地鸡'},
+      {text: '鱼香茄子'},
+      {text: '葱油清蒸鲈鱼'},
+      {text: '溜炒油豆腐'},
+      {text: '黄焖牛腩'},
+      {text: '饺子'},
       {text: '蛋炒饭'},
     ];
     this.colorSettings = [
